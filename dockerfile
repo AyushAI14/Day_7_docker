@@ -1,11 +1,20 @@
-FROM python:3.8 slim #defining python version
+# Use an official Python runtime as a parent image
+FROM python:3.12-slim
 
-WORKDIR /app #tell to create a /app dir in that python version
+# Set the working directory in the container
+WORKDIR /app
 
-COPY . /app # telling it to copy all current files in /app
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-RUN pip install requirement.txt #installing a lib
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirement.txt
 
-EXPOSE 5000 #exposing ports
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
-CMD ["flask", "run", "--host=0.0.0.0"] #giving him the command to run this
+# Define environment variable
+ENV FLASK_APP=app.py
+
+# Run the Flask app
+CMD ["flask", "run", "--host=0.0.0.0"]
